@@ -1,7 +1,7 @@
 #!python3
 import random
 
-NUM_ELEMENTS = 100000
+NUM_ELEMENTS = 1000000
 
 filename1 = "vector_x.txt"
 filename2 = "vector_y.txt"
@@ -9,8 +9,8 @@ filename2 = "vector_y.txt"
 file1 = open(filename1,"w")
 file2 = open(filename2,"w")
 
-ftext1 = [str(random.randint(1,100000)) for x in range(NUM_ELEMENTS)]
-ftext2 = [str(random.randint(1,100000)) for x in range(NUM_ELEMENTS)]
+ftext1 = [str(random.randint(1,1000000)) for x in range(NUM_ELEMENTS)]
+ftext2 = [str(random.randint(1,1000000)) for x in range(NUM_ELEMENTS)]
 
 
 

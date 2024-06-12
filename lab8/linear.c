@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <mpi.h>
-#include <omp.h>
-#include <time.h>
 
 #define MAX_ELEMENTS 1000000
 #define TAG_DATA 1
@@ -32,7 +30,7 @@ int readFile(char* filename,int num_elements,int vector[])
     fclose(file);
     return 0;
 }
-
+/*
 int find_max(int vector[], int length)
 {
     if(length==0)
@@ -98,36 +96,28 @@ void function_rank_other(int rank, int size)
 
     int localmax = find_max(vector, count);
     MPI_Send(&localmax,1,MPI_INT,0,TAG_MAX,MPI_COMM_WORLD);
-}
+}*/
 
 int main(int argc, char** argv)
 {
-    
-    int rank, size;
 
-    MPI_Init(&argc, &argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int vector[MAX_ELEMENTS];
+    readFile("vector_x.txt", MAX_ELEMENTS, vector);
 
+    double timeprog = MPI_Wtime();
 
-
-    if(rank==0)
+    int tempmax = vector[0];
+    for(int i=1;i<MAX_ELEMENTS;i++)
     {
-        double timeprog = MPI_Wtime();
-        
-        int max = function_rank_main(rank,size);
-        
-        timeprog = MPI_Wtime() - timeprog;
-        
-        printf("the max is %d\nit took %f seconds\n",max,timeprog);
-    }else
-    {
-        function_rank_other(rank,size);
+        if(vector[i]>tempmax)
+        {
+            tempmax = vector[i];
+        }
     }
-    
 
-    //printf("hello world, I am %d out of %d\n",rank,size);
-    MPI_Finalize();
+    timeprog = MPI_Wtime() - timeprog;
+
+    printf("the max is %d\nit took %f seconds\n",tempmax,timeprog);
 
     return 0;
 }

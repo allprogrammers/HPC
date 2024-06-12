@@ -9,8 +9,8 @@ filename2 = "vector_y.txt"
 file1 = open(filename1,"w")
 file2 = open(filename2,"w")
 
-ftext1 = [str(random.randint(1,100)) for x in range(NUM_ELEMENTS)]
-ftext2 = [str(random.randint(1,100)) for x in range(NUM_ELEMENTS)]
+ftext1 = [str(random.randint(1,100000)) for x in range(NUM_ELEMENTS)]
+ftext2 = [str(random.randint(1,100000)) for x in range(NUM_ELEMENTS)]
 
 
 

@@ -2,7 +2,7 @@
 #include <mpi.h>
 #include <omp.h>
 
-#define MAX_ELEMENTS 10000
+#define MAX_ELEMENTS 100000
 #define TAG_DATA 1
 #define TAG_MAX 2
 
@@ -56,14 +56,16 @@ int function_rank_main(int rank, int size)
     int vector[MAX_ELEMENTS];
     readFile("vector_x.txt", MAX_ELEMENTS, vector);
 
+    int sizeN = MAX_ELEMENTS/size;
+    int remaining = MAX_ELEMENTS%size;
     #pragma omp parallel for
     for(int i=1;i<size;i++)
     {
-        MPI_Send(vector+MAX_ELEMENTS%size+i*MAX_ELEMENTS/size, MAX_ELEMENTS/size, MPI_INT,i,TAG_DATA,MPI_COMM_WORLD);
+        MPI_Send(vector+remaining+i*sizeN, sizeN, MPI_INT,i,TAG_DATA,MPI_COMM_WORLD);
     }
     
     
-    int remaining = MAX_ELEMENTS/size + MAX_ELEMENTS%size;
+    remaining += MAX_ELEMENTS/size;
     
     int localmax = find_max(vector,remaining);
 
